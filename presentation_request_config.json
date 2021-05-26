@@ -1,0 +1,25 @@
+{
+  "includeQRCode": false,
+  "callback": {
+    "url": "https://callback.hoekstra.dev/api/verifier/presentationCallback",
+    "state": "dasd",
+    "headers": {
+      "api-key": "API for VERIFIER CALLBACK API"
+    }
+  },
+  "authority": "did:ion:EiA2vN6l-FWek4-Tvc67Lx_h6Adr2N_bQmXJ7e3aDLPPwg",
+  "registration": {
+    "clientName": "Expert Ninja Verifier"
+  },
+  "presentation": {
+    "includeReceipt": true,
+    "requestedCredentials": [
+      {
+        "type": "VerifiedCredentialExpert",
+        "manifest": "https://beta.did.msidentity.com/v1.0/3c32ed40-8a10-465b-8ba4-0b1e86882668/verifiableCredential/contracts/VerifiedCredentialExpert",
+        "purpose": "So we can see that you a veriable credentials expert",
+        "trustedIssuers": [ "did:ion:snbdiegu23", "did:ion:23rjcmfejif" ]
+      }
+    ]
+  }
+}

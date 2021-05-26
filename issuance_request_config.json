@@ -1,0 +1,26 @@
+{
+  "includeQRCode": true,
+  "callback": {
+    "url": "https://c228c807e79574151d0d93ab7ec189a1.m.pipedream.net",
+    "state": "dasd",
+    "headers": {
+      "api-key": "API for ISSUER CALLBACK API"
+    }
+  },
+  "authority": "did:ion:EiA2vN6l-FWek4-Tvc67Lx_h6Adr2N_bQmXJ7e3aDLPPwg",
+  "registration": {
+    "clientName": "Verifiable Credential Expert Sample"
+  },
+  "issuance": {
+    "type": "VerifiedCredentialExpert",
+    "manifest": "https://beta.did.msidentity.com/v1.0/cc7743d2-9026-44df-ba0e-33f87ebba062/verifiableCredential/contracts/VerifiedNinjaCredentialWithIDTokenHints",
+    "pin": {
+      "value": "123456",
+      "length": 4
+    },
+    "claims": {
+      "given_name": "Matthijs",
+      "family_name": "Hoekstra"
+    }
+  }
+}
