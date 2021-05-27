@@ -21,6 +21,8 @@
             <div id="message-wrapper" class="margin-bottom-75 margin-top-75" style="display: none">
                <i class="fas fa-user-check green icon-text-large margin-bottom-25"></i>
                <div id="message"></div>
+               <div id="payload"></div>
+               <div id="subject"></div>
             </div>
 
             <script src="qrcode.min.js"></script>
@@ -29,7 +31,7 @@
                 var signOut = document.getElementById('sign-out');
                 var display = document.getElementById('display');
                 var qrcode = new QRCode("qrcode", { width: 300, height: 300 });
-                var respIssuanceReq = null;
+                var respPresentationReq = null;
 
                 signIn.addEventListener('click', () => {
                     fetch('/api/verifier/presentation-request')
@@ -37,25 +39,29 @@
                         response.text()
                         .catch(error => document.getElementById("message").innerHTML = error)
                         .then(function(message) {
-                            respIssuanceReq = JSON.parse(message);
+                            respPresentationReq = JSON.parse(message);
                             if( /Android/i.test(navigator.userAgent) ) {
-                                console.log(`Android device! Using deep link (${respIssuanceReq.url}).`);
-                                window.location.href = respIssuanceReq.url; setTimeout(function () {
+                                console.log(`Android device! Using deep link (${respPresentationReq.url}).`);
+                                window.location.href = respPresentationReq.url; setTimeout(function () {
                                 window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
                             } else if (/iPhone/i.test(navigator.userAgent)) {
-                                console.log(`iOS device! Using deep link (${respIssuanceReq.url}).`);
-                                window.location.replace(respIssuanceReq.url);
+                                console.log(`iOS device! Using deep link (${respPresentationReq.url}).`);
+                                window.location.replace(respPresentationReq.url);
                             } else {
                                 console.log(`Not Android or IOS. Generating QR code encoded with ${message}`);
-                                qrcode.makeCode(respIssuanceReq.url);
+                                qrcode.makeCode(respPresentationReq.url);
                                 document.getElementById('sign-in').style.visibility = "hidden";
                                 document.getElementById('qrText').style.display = "block";
+
+
+
+
                             }
                         }).catch(error => { console.log(error.message); })
                     }).catch(error => { console.log(error.message); })
 
                     var checkStatus = setInterval(function () {
-                        fetch('api/verifier/presentation-response?id=' + respIssuanceReq.id )
+                        fetch('api/verifier/presentation-response?id=' + respPresentationReq.id )
                             .then(response => response.text())
                             .catch(error => document.getElementById("message").innerHTML = error)
                             .then(response => {
@@ -70,23 +76,19 @@
 
                                         document.getElementById('message').innerHTML = respMsg.message;
                                     }
-                                    // respMsg.status == 2 -> VC presented and validated
+                                    
                                     if (respMsg.status == 'presentation_verified') {
-                                        document.getElementById('message').innerHTML = respMsg.message + respMsg.payload;
-
+                                        document.getElementById('message').innerHTML = respMsg.message;
+                                        document.getElementById('payload').innerHTML = "Payload: " + respMsg.payload;
+                                        document.getElementById('subject').innerHTML = "Subject: " + respMsg.subject;
                                         //document.getElementById('sign-in').textContent = 'Verify Again';
                                         //document.getElementById('sign-in').style.visibility = 'visible';
                                         clearInterval(checkStatus);
                                     }
                                 }
                             })
-                    }, 500);
-
-
-
+                    }, 500); //change this to higher interval if you use ngrok to prevent overloading the free tier service
                 })
-
-               
             </script>
             </div>
 

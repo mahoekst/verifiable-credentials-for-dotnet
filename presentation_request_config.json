@@ -9,7 +9,7 @@
   },
   "authority": "did:ion:EiA2vN6l-FWek4-Tvc67Lx_h6Adr2N_bQmXJ7e3aDLPPwg",
   "registration": {
-    "clientName": "Expert Ninja Verifier"
+    "clientName": "Veriable Credential Expert Verifier"
   },
   "presentation": {
     "includeReceipt": true,

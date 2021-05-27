@@ -95,16 +95,12 @@ namespace Verifiable_credentials_DotNet
                     };
                     _cache.Set(state, JsonConvert.SerializeObject(cacheData));
 
-
                     return new ContentResult { ContentType = "application/json", Content = jsonString };
-
                 }
                 catch (Exception ex)
                 {
                     return BadRequest(new { error = "400", error_description = "Something went wrong calling the API: " + ex.Message });
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -202,7 +198,7 @@ namespace Verifiable_credentials_DotNet
                 return BadRequest(new { error = "400", error_description = ex.Message });
             }
 
-            return new OkResult();
+
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿@page
-@model IndexModel
+@model Verifiable_credentials_DotNet.Pages.IssuerModel
 @{
     ViewData["Title"] = "Issuer";
 }
-
             <div style="text-align: center;">
                 <img src="VerifiedCredentialExpert-icon.png" height=200px; />
                 <h1>Verifiable Credential Expert Issuance</h1>
@@ -22,6 +21,8 @@
             <div id="message-wrapper" class="margin-bottom-75 margin-top-75" style="display: none">
                <i class="fas fa-user-check green icon-text-large margin-bottom-25"></i>
                <div id="message"></div>
+
+
             </div>
 
             <script src="qrcode.min.js"></script>
@@ -33,7 +34,7 @@
                 var respIssuanceReq = null;
 
                 signIn.addEventListener('click', () => {
-                    fetch('/api/issuer/issue-request')
+                    fetch('/api/issuer/issuance-request')
                     .then(function(response) {
                         response.text()
                         .catch(error => document.getElementById("message").innerHTML = error)
@@ -60,37 +61,29 @@
                     }).catch(error => { console.log(error.message); })
 
                     var checkStatus = setInterval(function () {
-                        fetch('api/issuer/issue-response?id=' + respIssuanceReq.id + "&requestId=" + respIssuanceReq.requestId)
+                        fetch('api/issuer/issuance-response?id=' + respIssuanceReq.id )
                             .then(response => response.text())
                             .catch(error => document.getElementById("message").innerHTML = error)
                             .then(response => {
                                 if (response.length > 0) {
                                     console.log(response)
                                     respMsg = JSON.parse(response);
-                                    document.getElementById('message-wrapper').style.display = "block";
-                                    document.getElementById('qrText').style.display = "none";
-                                    document.getElementById('qrcodeFrame').style.display = "none";
-                                    document.getElementById('qrcode').style.display = "none";
-                                    document.getElementById('sign-in').textContent = 'Verify Again';
-                                    // respMsg.status == 1 -> QR Code scanned
-                                    if (respMsg.status == 1) {
+                                    // QR Code scanned, show pincode if pincode is required
+                                    if (respMsg.status == 'request_retrieved') {
+                                        document.getElementById('message-wrapper').style.display = "block";
+                                        document.getElementById('qrText').style.display = "none";
+                                        document.getElementById('qrcode').style.display = "none";
+
+                                        if (respMsg.pin) {
+                                            document.getElementById('pinCodeText').style.display = "visible";
+                                        }
                                         document.getElementById('message').innerHTML = respMsg.message;
-                                        clearInterval(checkStatus);
                                     }
-                                    // respMsg.status == 2 -> VC presented and validated
-                                    if (respMsg.status == 2) {
-                                        document.getElementById('message').innerHTML = respMsg.message + " validated successfully as " + cardTitle;
-                                        clearInterval(checkStatus);
-                                    }
+     
                                 }
                             })
-                    }, 3000);
-
-
-
+                    }, 500);
                 })
-
-               
             </script>
             </div>
 

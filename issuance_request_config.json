@@ -1,7 +1,7 @@
 {
   "includeQRCode": true,
   "callback": {
-    "url": "https://c228c807e79574151d0d93ab7ec189a1.m.pipedream.net",
+    "url": "https://callback.hoekstra.dev/api/issuer/issuanceCallback",
     "state": "dasd",
     "headers": {
       "api-key": "API for ISSUER CALLBACK API"
@@ -13,7 +13,7 @@
   },
   "issuance": {
     "type": "VerifiedCredentialExpert",
-    "manifest": "https://beta.did.msidentity.com/v1.0/cc7743d2-9026-44df-ba0e-33f87ebba062/verifiableCredential/contracts/VerifiedNinjaCredentialWithIDTokenHints",
+    "manifest": "https://beta.did.msidentity.com/v1.0/3c32ed40-8a10-465b-8ba4-0b1e86882668/verifiableCredential/contracts/VerifiedCredentialExpertAPI",
     "pin": {
       "value": "123456",
       "length": 4
