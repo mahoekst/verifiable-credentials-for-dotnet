@@ -41,7 +41,6 @@ namespace Verifiable_credentials_DotNet
         //}
 
         protected IMemoryCache _cache;
-
         public VerifierController(IMemoryCache memoryCache)
         {
             _cache = memoryCache;
@@ -139,6 +138,7 @@ namespace Verifiable_credentials_DotNet
                         subject = presentationResponse["subject"].ToString()
                     };
                     _cache.Set(state, JsonConvert.SerializeObject(cacheData));
+
                 }
 
                 return new OkResult();
